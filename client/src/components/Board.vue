@@ -54,7 +54,8 @@ export default {
   }),
   provide: function() {
     return {
-      onDrag: this.onDrag
+      onDrag: this.onDrag,
+      onDrop: this.onDrop,
     };
   },
 
@@ -73,6 +74,18 @@ export default {
         card,
         list
       };
+    },
+    onDrop: function(into){
+      this.list = this.lists.map(list => {
+        if(list.name === into){
+          list.cards = [this.draggedItem.card, ...list.cards];
+        }
+        if(this.draggedItem.list.name === list.name){
+          list.cards = list.cards.filter(
+            card => card.name !== this.draggedItem.card.name
+          );
+        }
+      });
     }
   }
 };
